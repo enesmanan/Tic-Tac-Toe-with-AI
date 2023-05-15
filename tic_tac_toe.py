@@ -56,3 +56,13 @@ class TicTacToe(object):
             return 'In Progress'
         
 
+# Game Test
+def gameTest():
+    game = TicTacToe()
+    game.whoStart()
+    print('Player', game.activePlayer, 'makes the first move')
+    print('Board initial state\n', game.board)
+    # make the first move
+    gameStatus, board = game.move(game.activePlayer, (0,0))
+    print('New Board status\n', game.board)
+    print('Game Status', gameStatus)
