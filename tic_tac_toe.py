@@ -59,7 +59,22 @@ class TicTacToe(object):
         
 
 
+# Neural Network Model
+model = Sequential() 
+model.add(Dense(18, input_dim=9, kernel_initializer='normal', activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(9, kernel_initializer='normal', activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(1, kernel_initializer='normal'))
 
+# SGD optimizer
+learningRate = 0.001
+momentum = 0.8
+sgd = SGD(lr=learningRate, momentum=momentum, nesterov= False)
+
+model.compile(loss='mean_squared_error', optimizer=sgd)
+
+#model.summary()
 
 # list of possible moves
 def moveGenerator(currentBoardState, activePlayer):
