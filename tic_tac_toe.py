@@ -9,6 +9,8 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import SGD
 
+
+# Tic Tac Toe Game Class
 class TicTacToe(object):
     def __init__(self):
         # 1: player1, 0: player0, 2: avaible
@@ -56,6 +58,26 @@ class TicTacToe(object):
             return 'In Progress'
         
 
+
+
+
+# list of possible moves
+def moveGenerator(currentBoardState, activePlayer):
+    avaibleMoves = {}
+    for i in range(currentBoardState.shape[0]):
+        for j in range(currentBoardState.shape[1]):
+            if currentBoardState[i, j] == 2:
+                boardStateCopy = currentBoardState.copy()
+                boardStateCopy[i ,j] = activePlayer
+                avaibleMoves[(i, j)] = boardStateCopy.flatten()
+    return avaibleMoves
+
+# move selector
+def moveSelector():
+    return False
+
+
+# ---- TESTS ---- #
 # Game Test
 def gameTest():
     game = TicTacToe()
@@ -66,3 +88,27 @@ def gameTest():
     gameStatus, board = game.move(game.activePlayer, (0,0))
     print('New Board status\n', game.board)
     print('Game Status', gameStatus)
+    # make the next move
+    gameStatus, board = game.move(game.activePlayer, (1,1))
+    print('New Board status\n', game.board)
+    print('Game Status', gameStatus)
+    # make the next move
+    gameStatus, board = game.move(game.activePlayer, (0,1))
+    print('New Board status\n', game.board)
+    print('Game Status', gameStatus)
+
+    print('Possible moves: ') 
+    pprint.pprint(moveGenerator(game.board, game.activePlayer))
+
+    # make the next move
+    gameStatus, board = game.move(game.activePlayer, (1,2))
+    print('New Board status\n', game.board)
+    print('Game Status', gameStatus)
+    # make the next move
+    gameStatus, board = game.move(game.activePlayer, (0,2))
+    print('New Board status\n', game.board)
+    print('Game Status', gameStatus)
+
+#gameTest()
+
+
