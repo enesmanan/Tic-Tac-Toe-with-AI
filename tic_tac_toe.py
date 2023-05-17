@@ -100,6 +100,63 @@ def moveSelector(model, currentBoardState, activePlayer):
     score = tracker[selectedMove]
     return selectedMove, newBoardState, score
 
+
+# --------------- #
+# competitive move selections
+# Does the player win after 1 step?
+# row based win control
+def rowWinMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        for i in range(currentBoardStateCopy.shape[0]):
+            if 2 not in currentBoardStateCopy[i, :] and len(set(currentBoardStateCopy[i, :])) == 1:
+                selectedMove = coord
+                return selectedMove
+            
+# column based win control
+def colWinMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        for i in range(currentBoardStateCopy.shape[1]):
+            if 2 not in currentBoardStateCopy[:, i] and len(set(currentBoardStateCopy[:, i])) == 1:
+                selectedMove = coord
+                return selectedMove
+
+# diagonal win check
+def diagWinMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        if 2 not in np.diag(currentBoardStateCopy) and len(set(np.diag(currentBoardStateCopy))) == 1:
+            selectedMove = coord
+            return selectedMove
+
+# diagonal (reverse) win check
+def diag2WinMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        if 2 not in np.diag(np.fliplr(currentBoardStateCopy)) and len(set(np.diag(np.fliplr(currentBoardStateCopy)))) == 1:
+            selectedMove = coord
+            return selectedMove
+
+# Does the player win after 2 steps?
+
+
+# --------------- #
+
+
+
 # ---- TESTS ---- #
 # Game Test
 def gameTest():
@@ -147,4 +204,5 @@ def moveSelectorTest():
     pprint.pprint(newBoardState.reshape(3,3))
     print('Score for the selected move', score)
 
-moveSelectorTest()
+#moveSelectorTest()
+
