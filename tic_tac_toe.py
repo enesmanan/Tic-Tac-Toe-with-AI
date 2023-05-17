@@ -88,9 +88,17 @@ def moveGenerator(currentBoardState, activePlayer):
     return avaibleMoves
 
 # move selector
-def moveSelector():
-    return False
+def moveSelector(model, currentBoardState, activePlayer):
+    tracker = {}
+    avaibleMoves = moveGenerator(currentBoardState, activePlayer)
+    for moveCoord in avaibleMoves:
+        score = model.predict(avaibleMoves[moveCoord].reshape(1,9))
+        tracker[moveCoord] = score
 
+    selectedMove = max(tracker, key = tracker.get)
+    newBoardState = avaibleMoves[selectedMove]
+    score = tracker[selectedMove]
+    return selectedMove, newBoardState, score
 
 # ---- TESTS ---- #
 # Game Test
@@ -126,4 +134,17 @@ def gameTest():
 
 #gameTest()
 
+# Move Selection Test
+def moveSelectorTest():
+    game = TicTacToe()
+    game.whoStart()
+    print('Player', game.activePlayer, 'starts the game')
+    print('current board status\n', game.board)
 
+    selectedMove,newBoardState, score = moveSelector(model, game.board, game.activePlayer)
+    print('Select of move made', selectedMove)
+    print('New Board status')
+    pprint.pprint(newBoardState.reshape(3,3))
+    print('Score for the selected move', score)
+
+moveSelectorTest()
