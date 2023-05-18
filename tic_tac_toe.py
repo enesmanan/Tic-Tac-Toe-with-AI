@@ -252,9 +252,36 @@ def diag2SecondMoveCheck(currentBoardState, avaibleMoves, activePlayer):
                 selectedMove = coord
                 return selectedMove
 
+# competitive move selection
+def openentMoveSelector(currentBoardState, activePlayer, mode):
 
+    winingMoveChecks = [rowWinMoveCheck, colWinMoveCheck, diag2WinMoveCheck, diag2WinMoveCheck] 
+    blockMoveChecks = [rowBlockMoveCheck, colBlockMoveCheck, diagBlockMoveCheck, diag2BlockMoveCheck]
+    secondMoveCheck = [rowSecondMoveCheck, colSecondMoveCheck, diagSecondMoveCheck , diag2SecondMoveCheck]
+    
+    availableMoves = moveGenerator(currentBoardState, activePlayer)
 
+    if mode == 'Easy':
+        selectedMove = random.choice(list(availableMoves.keys()))
+        return selectedMove
+    
+    elif mode == 'Hard':
+        random.shuffle(winingMoveChecks)
+        random.shuffle(blockMoveChecks)
+        random.shuffle(secondMoveCheck)
 
+        for fn in winingMoveChecks:
+            if fn(currentBoardState, availableMoves, activePlayer):
+                return fn(currentBoardState, availableMoves, activePlayer)
+        for fn in blockMoveChecks:
+            if fn(currentBoardState, availableMoves, activePlayer):
+                return fn(currentBoardState, availableMoves, activePlayer)
+        for fn in secondMoveCheck:
+            if fn(currentBoardState, availableMoves, activePlayer):
+                return fn(currentBoardState, availableMoves, activePlayer)
+        
+        selectedMove = random.choice(list(availableMoves.keys()))
+        return selectedMove
 # --------------- #
 
 
