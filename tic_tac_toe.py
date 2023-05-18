@@ -203,52 +203,52 @@ def diag2BlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
 
 
 # two-step check (row)
-def rowBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+def rowSecondMoveCheck(currentBoardState, avaibleMoves, activePlayer):
     avaibleMoveCoords = list(avaibleMoves.keys())
     random.shuffle(avaibleMoveCoords)
     for coord in avaibleMoveCoords:
         currentBoardStateCopy = currentBoardState.copy()
         currentBoardStateCopy[coord] = activePlayer
         for i in range(currentBoardStateCopy.shape[0]):
-            if 2 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 1).sum() == 2:
-                if not(2 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 1).sum() == 2):
+            if 1 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 0).sum() == 2:
+                if not(1 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 0).sum() == 2):
                     selectedMove = coord
                     return selectedMove
 
 # two-step check (column)
-def colBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+def colSecondMoveCheck(currentBoardState, avaibleMoves, activePlayer):
     avaibleMoveCoords = list(avaibleMoves.keys())
     random.shuffle(avaibleMoveCoords)
     for coord in avaibleMoveCoords:
         currentBoardStateCopy = currentBoardState.copy()
         currentBoardStateCopy[coord] = activePlayer
         for i in range(currentBoardStateCopy.shape[0]):
-            if 2 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 1).sum() == 2:
-                if not(2 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 1).sum() == 2):
+            if 1 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 0).sum() == 2:
+                if not(1 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 0).sum() == 2):
                     selectedMove = coord
                     return selectedMove
 
 # two-step check (diagonal)
-def diagBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+def diagSecondMoveCheck(currentBoardState, avaibleMoves, activePlayer):
     avaibleMoveCoords = list(avaibleMoves.keys())
     random.shuffle(avaibleMoveCoords)
     for coord in avaibleMoveCoords:
         currentBoardStateCopy = currentBoardState.copy()
         currentBoardStateCopy[coord] = activePlayer
-        if 2 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 1).sum() == 2:
-            if not(2 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 1).sum() == 2):
+        if 1 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 0).sum() == 2:
+            if not(1 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 0).sum() == 2):
                 selectedMove = coord
                 return selectedMove
 
 # two-step check (diagonal-reverse)
-def diag2BlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+def diag2SecondMoveCheck(currentBoardState, avaibleMoves, activePlayer):
     avaibleMoveCoords = list(avaibleMoves.keys())
     random.shuffle(avaibleMoveCoords)
     for coord in avaibleMoveCoords:
         currentBoardStateCopy = currentBoardState.copy()
         currentBoardStateCopy[coord] = activePlayer
-        if 2 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 1).sum() == 2:
-            if not(2 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 1).sum() == 2):
+        if 1 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 0).sum() == 2:
+            if not(1 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 0).sum() == 2):
                 selectedMove = coord
                 return selectedMove
 
