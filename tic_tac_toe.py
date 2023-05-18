@@ -39,12 +39,12 @@ class TicTacToe(object):
             if 2 not in self.board[i, :] and len(set(self.board[i, :])) == 1:
                 return 'Win'
         
-        # winn - column check
+        # win - column check
         for j in range(self.board.shape[1]):
             if 2 not in self.board[:, j] and len(set(self.board[:, j ])) == 1:
                 return 'Win'
             
-        # win - cross check
+        # win - diagonal check
         if 2 not in np.diag(self.board) and len(set(np.diag(self.board))) == 1:
             return('Win')
         if 2 not in np.diag(np.fliplr(self.board)) and len(set(np.diag(np.fliplr(self.board)))) == 1:
@@ -150,7 +150,56 @@ def diag2WinMoveCheck(currentBoardState, avaibleMoves, activePlayer):
             selectedMove = coord
             return selectedMove
 
-# Does the player win after 2 steps?
+# block if opponent wins (row)
+def rowBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        for i in range(currentBoardStateCopy.shape[0]):
+            if 2 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 1).sum() == 2:
+                if not(2 not in currentBoardStateCopy[i, :] and (currentBoardStateCopy[i, :] == 1).sum() == 2):
+                    selectedMove = coord
+                    return selectedMove
+
+# block if opponent wins (column)
+def colBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        for i in range(currentBoardStateCopy.shape[0]):
+            if 2 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 1).sum() == 2:
+                if not(2 not in currentBoardStateCopy[:, i] and (currentBoardStateCopy[:, i] == 1).sum() == 2):
+                    selectedMove = coord
+                    return selectedMove
+
+# block if opponent wins (diagonal)
+def diagBlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        if 2 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 1).sum() == 2:
+            if not(2 not in np.diag(currentBoardStateCopy) and (np.diag(currentBoardStateCopy) == 1).sum() == 2):
+                selectedMove = coord
+                return selectedMove
+
+# block if opponent wins (diagonal-reverse)
+def diag2BlockMoveCheck(currentBoardState, avaibleMoves, activePlayer):
+    avaibleMoveCoords = list(avaibleMoves.keys())
+    random.shuffle(avaibleMoveCoords)
+    for coord in avaibleMoveCoords:
+        currentBoardStateCopy = currentBoardState.copy()
+        currentBoardStateCopy[coord] = activePlayer
+        if 2 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 1).sum() == 2:
+            if not(2 not in np.diag(np.fliplr(currentBoardStateCopy)) and (np.diag(np.fliplr(currentBoardStateCopy)) == 1).sum() == 2):
+                selectedMove = coord
+                return selectedMove
+
 
 
 # --------------- #
