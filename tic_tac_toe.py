@@ -319,11 +319,38 @@ def train(model, mode, print_progress=False):
             break
 
 
-# Score correction 1/ 0 / -1 --> win / draw / lose
+    # Score correction 1 / 0 / -1 --> win / draw / lose
+    newBoardStateList = tuple(newBoardStateList) 
+    newBoardStateList = np.vstack(newBoardStateList)
+
+    if gameStatus == 'Win' and (1-game.activePlayer) == 1:
+        correctedScoreList = shift(scoreList, -1, cval = 1.0)
+        result = 'Win'
+    if gameStatus == 'Win' and (1-game.activePlayer) != 1:
+        correctedScoreList = shift(scoreList, -1, cval = -1.0)
+        result = 'Lost'
+    if gameStatus == 'Draw':
+        correctedScoreList = shift(scoreList, -1, cval=0.0)
+        result = 'Draw'
+    if print_progress == True:
+        print('AI: ', result)
+        print('-------------------------------------------')
 
 
+    x = newBoardStateList
+    y = correctedScoreList
 
+    def unisonShuffledCopies(a,b):
+        assert len(a) == len(b)
+        p = np.random.permutation(len(a))
+        return a[p], b[p]
 
+    x, y = unisonShuffledCopies(x, y)
+    x = x.reshape(-1, 9)
+
+    # update weights and fit model
+    model.fit(x,y, epoch=1, batch_size=1, verbose=0)
+    return model, y, result
 
 
 
