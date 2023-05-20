@@ -285,6 +285,47 @@ def openentMoveSelector(currentBoardState, activePlayer, mode):
 # --------------- #
 
 
+# Train
+def train(model, mode, print_progress=False):
+    if print_progress == True:
+        print('----------------------------------------')
+        print('New Game Started')
+
+    game = TicTacToe()
+    game.whoStart()
+    scoreList = []
+    correctedScoreList = []
+    newBoardStateList = []
+
+    while(1):
+        if game.gameStatus() == 'In Progress' and game.activePlayer == 1:
+            # If the turn is in the AI, use the move selector for the move
+            selectedMove, newBoardState, score = moveSelector(model, game.board, game.activePlayer)
+            scoreList.append(score[0][0])
+            newBoardStateList.append(newBoardState)
+            # Make the next move
+            gameStatus, board = game.move(game.activePlayer, selectedMove)
+            if print_progress == True:
+                print('AI \'s move')
+                print(board, '\n')
+        elif game.gameStatus() == 'In Progress' and game.activePlayer == 0:
+            selectedMove = openentMoveSelector(game.board, game.activePlayer, mode=mode)
+            # make the next move
+            gameStatus, board = game.move(game.activePlayer, selectedMove)
+            if print_progress == True:
+                print('Competitive bot\'s move')
+                print(board, '\n')
+        else:
+            break
+
+
+# Score correction 1/ 0 / -1 --> win / draw / lose
+
+
+
+
+
+
 
 # ---- TESTS ---- #
 # Game Test
