@@ -257,7 +257,7 @@ def openentMoveSelector(currentBoardState, activePlayer, mode):
 
     winingMoveChecks = [rowWinMoveCheck, colWinMoveCheck, diag2WinMoveCheck, diag2WinMoveCheck] 
     blockMoveChecks = [rowBlockMoveCheck, colBlockMoveCheck, diagBlockMoveCheck, diag2BlockMoveCheck]
-    secondMoveCheck = [rowSecondMoveCheck, colSecondMoveCheck, diagSecondMoveCheck , diag2SecondMoveCheck]
+    secondMoveCheck = [rowSecondMoveCheck, colSecondMoveCheck, diagSecondMoveCheck, diag2SecondMoveCheck]
     
     availableMoves = moveGenerator(currentBoardState, activePlayer)
 
@@ -349,8 +349,36 @@ def train(model, mode, print_progress=False):
     x = x.reshape(-1, 9)
 
     # update weights and fit model
-    model.fit(x,y, epoch=1, batch_size=1, verbose=0)
+    model.fit(x,y, epochs=1, batch_size=1, verbose=0)
     return model, y, result
+
+
+# one-time fit and update
+#updatedModel, y, result = train(model, mode='Hard', print_progress=True)
+
+# learning by playing competitive bots with iterations
+gameCounter = 1
+modeList = ['Easy', 'Hard']
+
+while(gameCounter<2000):
+    modeSelected = np.random.choice(modeList, 1, p=[0.5, 0.5])
+    model, y, result = train(model, mode=modeSelected[0], print_progress=False)
+    if gameCounter % 5 == 0:
+        print('Game #{} - Result: {}'.format(gameCounter, result))
+        print('Game Mode: {}'.format(modeSelected[0]))
+    gameCounter += 1
+
+
+# Save the unsupervised trained model
+model.save('tictactoeModel.h5')
+
+# Loading the saved model
+from keras.models import load_model
+model = load_model('tictactoeModel.h5')
+
+
+
+
 
 
 
