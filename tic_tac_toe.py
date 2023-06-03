@@ -2,7 +2,8 @@
 import numpy as np
 import pandas as pd
 import random, pprint
-from scipy.ndimage.interpolation import shift
+from scipy.ndimage import shift
+#from scipy.ndimage.interpolation import shift
 
 # AI moduls
 from keras.models import Sequential
@@ -360,7 +361,7 @@ def train(model, mode, print_progress=False):
 gameCounter = 1
 modeList = ['Easy', 'Hard']
 
-while(gameCounter<2000):
+while(gameCounter<500):
     modeSelected = np.random.choice(modeList, 1, p=[0.5, 0.5])
     model, y, result = train(model, mode=modeSelected[0], print_progress=False)
     if gameCounter % 5 == 0:
